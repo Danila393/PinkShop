@@ -1,0 +1,14 @@
+.venv
+.git
+.gitignore
+__pycache__
+*.pyc
+.pytest_cache
+.env
+.env.local
+pg_data
+postgres_data
+.docker-volumes
+media
+.idea
+staticfiles

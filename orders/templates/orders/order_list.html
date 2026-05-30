@@ -1,0 +1,23 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 style="color: #ff85a2;">Мои заказы 📦</h2>
+    <hr>
+    {% if orders %}
+        <div class="list-group">
+        {% for order in orders %}
+            <div class="list-group-item shadow-sm mb-3" style="border-radius: 10px;">
+                <h5>Заказ №{{ order.id }}</h5>
+                <p><strong>Товар:</strong> {{ order.product.name }}</p>
+                <p><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+                <p><strong>Покупатель:</strong> {{ order.user.username }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-light">Заказов пока нет. Добавьте их через Shell или админку!</div>
+    {% endif %}
+    <a href="{% url 'catalog:home' %}" class="btn" style="background-color: #ffb3c6; color: white;">На главную</a>
+</div>
+{% endblock %}

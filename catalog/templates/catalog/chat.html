@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ffdae0; border-radius: 10px; background: white;">
+    <h2 style="color: #ff1493;">Чат: {{ room_name }}</h2>
+
+    <div id="chat-log" style="height: 300px; overflow-y: scroll; border: 1px solid #ffb6c1; padding: 10px; margin-bottom: 10px; border-radius: 5px; background: #fffaf0;">
+        </div>
+
+    <input id="chat-message-input" type="text" placeholder="Введите сообщение..." style="width: 70%; padding: 10px; border: 1px solid #ffb6c1; border-radius: 5px;">
+    <button id="chat-message-submit" style="width: 25%; padding: 10px; background: #ff1493; color: white; border: none; border-radius: 5px; cursor: pointer;">Отправить</button>
+</div>
+
+{{ room_name|json_script:"room-name" }}
+
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const chatLog = document.getElementById('chat-log');
+        chatLog.innerHTML += '<div><b>' + data.username + ':</b> ' + data.message + '</div>';
+        chatLog.scrollTop = chatLog.scrollHeight;
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        if(message.trim() !== "") {
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        }
+    };
+</script>
+{% endblock %}

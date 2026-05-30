@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 style="color: #ff85a2;">Отзывы покупателей 💬</h2>
+    <hr>
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="card mb-3 shadow-sm" style="border-radius: 15px; border-left: 5px solid #ffb3c6;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ review.product.name }} — <span style="color: #ffc107;">★ {{ review.rating }}/5</span></h5>
+                    <p class="card-text">{{ review.text }}</p>
+                    <footer class="blockquote-footer">Автор: {{ review.user.username }}</footer>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Отзывов пока нет. Будьте первым!</p>
+    {% endif %}
+    <a href="{% url 'catalog:home' %}" class="btn" style="background-color: #ffb3c6; color: white;">На главную</a>
+</div>
+{% endblock %}

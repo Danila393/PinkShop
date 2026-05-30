@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ffb6c1; border-radius: 10px; background: #fff0f5;">
+    <h2 style="text-align: center; color: #ff1493;">Регистрация</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="width: 100%; background: #ff1493; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+            Создать аккаунт
+        </button>
+    </form>
+
+    <p style="text-align: center; margin-top: 15px;">
+        Уже есть аккаунт? <a href="{% url 'users:login' %}" style="color: #ff1493; font-weight: bold;">Войти</a>
+    </p>
+</div>
+{% endblock %}

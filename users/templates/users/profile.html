@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ffb6c1; border-radius: 10px; background: white;">
+    <h2 style="color: #ff1493; text-align: center; margin-bottom: 20px;">Личный кабинет {{ request.user.username }}</h2>
+
+    <form method="post" action="">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="color: red; background: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px; font-weight: bold;">
+                        {{ field.errors|striptags }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" style="width: 100%; background: #ff1493; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 15px;">
+            Сохранить изменения
+        </button>
+    </form>
+</div>
+{% endblock %}

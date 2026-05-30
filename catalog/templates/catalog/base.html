@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>PinkStore | Мой Магазин</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <h1>🛍️ PinkStore 💅</h1>
+        <nav>
+            <a href="{% url 'catalog:home' %}" class="nav-link">Главная</a>
+            <a href="{% url 'catalog:product_list' %}" class="nav-link">Каталог</a>
+
+            <a href="{% url 'users:profile' %}" class="nav-link">Профиль</a>
+
+            <a href="{% url 'orders:order_list' %}" class="nav-link">Заказы</a>
+
+            <a href="{% url 'reviews:review_list' %}" class="nav-link">Отзывы</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>ОРИС PINKSTORE!!!</p>
+        </div>
+    </footer>
+
+</body>
+</html>

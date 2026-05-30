@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>PinkStore | Мой Магазин</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        .chat-floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff1493;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .chat-floating-btn:hover {
+            transform: scale(1.1);
+            background-color: #d1005a;
+        }
+    </style>
+</head>
+
+<body class="{% if request.COOKIES.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+    <header class="site-header">
+        <h1>🛍️ PinkStore 💅</h1>
+        <nav>
+            <a href="{% url 'catalog:home' %}" class="nav-link">Главная</a>
+            <a href="{% url 'catalog:product_list' %}" class="nav-link">Каталог</a>
+
+            <a href="{% url 'catalog:cart_view' %}" class="nav-link">🛒 Корзина</a>
+
+            {% if request.user.is_authenticated %}
+                <span class="nav-link" style="margin-left: 15px;">Привет, {{ request.user.username }}!</span>
+                <a href="{% url 'users:profile' %}" class="nav-link">Профиль</a>
+                <form action="{% url 'users:logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer;">Выйти</button>
+                </form>
+            {% else %}
+                <a href="{% url 'users:login' %}" class="nav-link" style="margin-left: 15px;">Войти</a>
+                <a href="{% url 'users:register' %}" class="nav-link">Регистрация</a>
+            {% endif %}
+
+            <a href="{% url 'catalog:toggle_theme' %}" class="nav-link" style="margin-left: 20px;">
+                {% if request.COOKIES.theme == 'dark' %}
+                    ☀️ Светлая тема
+                {% else %}
+                    🌙 Тёмная тема
+                {% endif %}
+            </a>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="container" style="text-align: center; margin-top: 20px; color: inherit;">
+        ОРИС PINKSTORE!!!
+    </footer>
+
+    <a href="{% url 'catalog:chat_room' 'general' %}" class="chat-floating-btn">
+        💬 Чат
+    </a>
+
+</body>
+</html>
